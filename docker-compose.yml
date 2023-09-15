@@ -1,0 +1,23 @@
+services:
+    local-nodejs:
+        volumes:
+            - ./:/app/
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+        container_name: local-nodejs
+        ports:
+            - "3000:3000"
+        # env_file: # Uncomment for .env file
+        #     - ./.env
+    local-postgres-db:
+        image: postgres
+        restart: always
+        environment:
+          - POSTGRES_DB=${PG_DB_NAME}
+          - POSTGRES_USER=${PG_DB_USER}
+          - POSTGRES_PASSWORD=${PG_DB_PASSWORD}
+        ports:
+          - "5432:5432"
+        volumes:
+          - ./db/:/var/lib/postgresql/data/ # Add /db to .gitignore
